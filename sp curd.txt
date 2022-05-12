@@ -1,0 +1,74 @@
+
+   
+create proc Employee_sp
+@Id int,
+@Name varchar(50),
+@Email varchar(50),
+@Address varchar(50),
+@Gender varchar(20),
+@salary bigint
+as
+begin 
+insert into Employees (Id,Name,Email,Address,Gender,salary) values (@Id,@Name,@Email,@Address,@Gender,@salary)
+end
+
+create proc EmployeeList_sp
+as
+begin
+select * from Employees
+end
+
+create proc EmployeeUpdate_sp
+@Id int,
+@Name varchar(50),
+@Email varchar(50),
+@Address varchar(50),
+@Gender varchar(20),
+@salary bigint
+as
+begin
+update Employees set Name=@Name, Email=@Email, Address=@Address, Gender=@Gender, salary=@salary where Id=@Id
+end
+
+create proc EmployeeDelete_sp
+@Id int
+as
+begin
+delete Employees where Id=@Id
+end
+
+create proc EmployeeSearch_sp
+@Id int
+as
+begin
+select * from Employees where Id=@Id
+end
+
+
+create proc Crud_sp
+@Id int,
+@Name varchar(50),
+@Email varchar(50),
+@Address varchar(50),
+@Gender varchar(20),
+@salary bigint,
+@Choice varchar(100)
+as
+begin
+SET NOCOUNT ON;
+if @Choice='Insert'
+begin
+insert into Employees (Id,Name,Email,Address,Gender,salary) values (@Id,@Name,@Email,@Address,@Gender,@salary)
+end
+if @Choice='Update'
+begin
+update Employees set Name=@Name, Email=@Email, Address=@Address, Gender=@Gender, salary=@salary where Id=@Id
+end
+if @Choice='Delete'
+begin
+delete Employees where Id=@Id
+end
+end
+go
+
+Exec Crud_sp @Id=6, @Name='Devendra',@Email='rai222@gmail.com',@Address='noida',@Gender='male',@salary=28000,@Choice='Delete';
